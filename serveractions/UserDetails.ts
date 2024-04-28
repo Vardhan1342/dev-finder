@@ -4,7 +4,7 @@ import { User } from "@/db/models/User";
 import {StreamChat} from "stream-chat";
 import { checkSession } from "./createroom";
 import { Room } from "@/db/models/Room";
-import { revalidatePath } from "next/cache";
+import { roomschema } from "@/components/Create-room-form";
 
 export const findUserBYEmail=async(email:string) =>{
     await conntecttodb();
@@ -71,4 +71,24 @@ export const deleteUserRoom=async(roomid:string)=>{
         console.log(error)
     }
    
+}
+
+
+export const editUserRoom=async(room:roomschema,roomid:string)=>{
+    const user=await checkSession();
+    if(!user){
+        return {error:"please Login"}
+    }
+    try {
+        await Room.findByIdAndUpdate(roomid,{
+            roomname:room.roomname,
+            description:room.description,
+            githubrepo:room.githubrepo,
+            language:room.language,
+        })
+        return { message:"Room successfully Updated"}
+    } catch (error) {
+        throw error
+    }
+    
 }

@@ -27,6 +27,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FiGithub } from "react-icons/fi";
 import { Badge } from "@/components/ui/badge";
+import { Pencil1Icon } from "@radix-ui/react-icons";
 
 const page = () => {
   const { toast } = useToast();
@@ -50,14 +51,20 @@ const page = () => {
   }
   return (
     <>
-      <div className=" container grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2">
+      <div className="relative container grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2">
         {rooms &&
           rooms.map((room) => (
-            <Card className="w-full m-2">
+            <Card className=" m-2 realtive">
               <CardHeader>
-                <CardTitle>{room.roomname}</CardTitle>
+                <CardTitle className="flex gap-x-1 items-center ">
+                  {room.roomname}
+                  <Button variant="ghost" size="sm" className="p-0 px-1" asChild>
+                    <Link href={`/edit/${room.id}`}><Pencil1Icon /></Link>
+                  </Button>
+                  </CardTitle>
                 <CardDescription>{room.description}</CardDescription>
               </CardHeader>
+                
               <CardContent>
                 <div className="grid w-full items-center gap-4">
                   <div className="flex  space-x-1.5">
@@ -77,7 +84,7 @@ const page = () => {
                       room.language
                         .split(",")
                         .map((item: string) => (
-                          <Badge className="mr-1">{item}</Badge>
+                          <Badge className="mr-1 rounded-3xl">{item}</Badge>
                         ))}
                   </div>
                 </div>
@@ -125,6 +132,7 @@ const page = () => {
                   <Link href={`/room/${room.id}`} replace>Join Room</Link>
                 </Button>
               </CardFooter>
+             
             </Card>
           ))}
       </div>

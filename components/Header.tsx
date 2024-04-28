@@ -43,9 +43,9 @@ const Header = () => {
       {data &&
              <DropdownMenu >
                 <DropdownMenuTrigger>
-                    <Avatar>
-                      <AvatarImage className='rounded-full w-12 border-2 border-white p-[2px]' src={data?.user?.image?? ""} alt="name" />
-                      <AvatarFallback>{data?.user?.name?.substring(0,1)}</AvatarFallback>
+                    <Avatar className='rounded-full aspect-square w-12 border-2 border-gray-700 dark:border-white p-[4px]' >
+                      <AvatarImage src={data?.user?.image?? ""} alt="name" />
+                      <span className='text-sm p-2'>{data?.user?.name}</span>
                     </Avatar>
                   </DropdownMenuTrigger>
                 <DropdownMenuContent>

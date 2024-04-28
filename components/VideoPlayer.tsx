@@ -13,16 +13,16 @@ import {
 
 import '@stream-io/video-react-sdk/dist/css/styles.css';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const apiKey = "t2dy3m3evgye";
 // process.env.STREAM_APIKEY! 
-const callId = "csb-" + Math.random().toString(16).substring(2);
 
 
       export const VideoPlayer = ({id}:any ) => {
-        console.log("idddddd" , id)
+        const params=useParams()
+        const roomid=params.roomid as string 
         const router=useRouter();
         const session=useSession();
         const [client, setClient] = useState<StreamVideoClient>();
@@ -35,14 +35,14 @@ const callId = "csb-" + Math.random().toString(16).substring(2);
           const myClient = new StreamVideoClient({ 
             apiKey, 
             user:{
-              id:  id,
+              id:  session.data?.user?.id || id,
               name:session.data?.user?.name ?? undefined,
               image:session.data?.user?.image ?? undefined
             },
              tokenProvider:()=>Token(id),
               });
     setClient(myClient);
-    const call=myClient.call("default",callId)
+    const call=myClient.call("livestream",roomid)
     call.join({create:true})
     setCall(call)
     return () => {
