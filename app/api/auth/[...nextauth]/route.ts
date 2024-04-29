@@ -14,7 +14,8 @@ export const authoptions=
     providers: [
       GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID!,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET!
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+        allowDangerousEmailAccountLinking: true,
       })
     ],
     callbacks: {
@@ -24,6 +25,7 @@ export const authoptions=
         return session 
       },
       async jwt({ token, user, account, profile }) {
+        console.log(token)
         return token
       }
     },
