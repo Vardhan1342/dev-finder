@@ -9,7 +9,7 @@ import { getRooms } from "@/serveractions/createroom";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
+import { MdHourglassEmpty } from "react-icons/md";
 export default function Page() {
  const router = useRouter();
  const session=useSession();
@@ -54,9 +54,18 @@ export default function Page() {
              </Button>
             </div>
     </div>
-            <Suspense fallback={<Loading />}>
-                 <RoomCard rooms={filteredrooms} />    
-            </Suspense>
+    {filteredrooms.length==0 ? 
+    <div className="flex flex-col items-center justify-center mt-16">
+      <MdHourglassEmpty size={200}  />
+       <h1 className="text-3xl font-semibold">No Rooms</h1>
+      </div>
+     
+    :
+    <Suspense fallback={<Loading />}>
+    <RoomCard rooms={filteredrooms} />    
+</Suspense>
+    }
+           
     </main>
   );
 }

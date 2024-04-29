@@ -37,7 +37,7 @@ const page = () => {
       setRooms(res);
     });
   }, []);
-  if (!rooms) {
+  if (rooms.length==0) {
     return (
       <>
         <div className=" absolute top-1/2 left-[45%]  flex flex-col justify-center items-center space-y-2">

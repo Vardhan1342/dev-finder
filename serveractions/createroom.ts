@@ -27,14 +27,14 @@ export const createroom=async(room :roomschema)=>{
         return {error:"please Login"}
     }
     try {
-        await Room.create({
+        const res=await Room.create({
             roomname:room.roomname,
             description:room.description,
             githubrepo:room.githubrepo,
             language:room.language,
             creator:user.id 
         })
-        return { message:"Room successfully Created"}
+        return res._id.toString();
     } catch (error) {
         throw error
     }
@@ -59,7 +59,7 @@ export const getRoom=async(roomid:string)=>{
     await conntecttodb();
     const user=await checkSession();
     if(!user){
-        return {error:"please Login"}
+        return "please Login"
     }
  try {
      const room=await  Room.findById(roomid);
@@ -71,7 +71,6 @@ export const getRoom=async(roomid:string)=>{
         language:room.language,
         creator:room.creator.toString()
      }
-     console.log('server side',roomPlain)
      return roomPlain;
  } catch (error) {
     return "Room Not Found"

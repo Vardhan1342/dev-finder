@@ -1,6 +1,7 @@
 "use client"
 import { rooms } from '@/components/Room-Card';
 import {VideoPlayer} from '@/components/VideoPlayer';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { 
   Card, CardDescription, CardFooter, CardHeader ,CardTitle ,CardContent} from '@/components/ui/card';
@@ -52,9 +53,14 @@ const page = () => {
                 <FiGithub size={20}/> <p className='text-sm'>Github <a href={room &&room.githubrepo} className='underline text-blue-600' target="_blank">Link</a></p>
             </div>
             <div>
-              {room&& room.language.split(",").map((item :string)=>(
-                <Button variant="outline"  size='sm' className='m-1 '>{item}</Button> 
-                ))}
+              {room&& room.language && room.language.includes(",")?
+              room.language.split(",").map((item :string)=>(
+                <Badge  className="mr-1 rounded-3xl" >{item}</Badge> 
+                ))
+              :
+              <Badge  className="mr-1 rounded-3xl" >{room?.language}</Badge> 
+
+              }
             </div>
           </div>
       </CardContent>

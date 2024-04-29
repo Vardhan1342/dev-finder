@@ -51,11 +51,11 @@ const CreateForm = () => {
 
       const onSubmit=async (values:roomschema)=> {
         try {
-          await createroom(values);
+          const res=await createroom(values);
           toast({
             title:"Room created",
            })
-           router.push("/");
+           router.push(`/room/${res}`);
         } catch (error) {
           toast({
             title:"Room not created",

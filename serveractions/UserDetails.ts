@@ -5,6 +5,7 @@ import {StreamChat} from "stream-chat";
 import { checkSession } from "./createroom";
 import { Room } from "@/db/models/Room";
 import { roomschema } from "@/components/Create-room-form";
+import { revalidatePath } from "next/cache";
 
 export const findUserBYEmail=async(email:string) =>{
     await conntecttodb();
@@ -80,15 +81,37 @@ export const editUserRoom=async(room:roomschema,roomid:string)=>{
         return {error:"please Login"}
     }
     try {
-        await Room.findByIdAndUpdate(roomid,{
+       const res= await Room.findByIdAndUpdate(roomid,{
             roomname:room.roomname,
             description:room.description,
             githubrepo:room.githubrepo,
             language:room.language,
         })
+        revalidatePath(`/edit/${roomid}`)
+        revalidatePath("/home")
+        revalidatePath("/your-rooms")
         return { message:"Room successfully Updated"}
     } catch (error) {
         throw error
     }
     
+}
+
+
+
+export const deleteUser=async()=>{
+       const session=await checkSession();
+       const id=session.id;
+       if(!session){
+        throw new Error ("You must be logged in to Delete Account");
+       }
+
+       try {
+           await User.findByIdAndDelete(id);
+           await Room.deleteMany({creator:id});
+           revalidatePath("/");
+             
+       } catch (error) {
+             throw error
+       }
 }

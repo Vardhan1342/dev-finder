@@ -20,6 +20,7 @@ import { createroom, getRoom } from "@/serveractions/createroom"
 import { useParams, useRouter } from "next/navigation"
 import { useState,useEffect } from "react"
 import { editUserRoom } from "@/serveractions/UserDetails"
+import { room } from "@/db/models/Room"
 
 const formSchema = z.object({
     roomname: z.string().min(2, {
@@ -37,20 +38,20 @@ const formSchema = z.object({
 })
 
 export type roomschema= z.infer<typeof formSchema>;
-
-const EditForm = () => {
-    const params =useParams();
-      const roomid=params.roomid as string
-      const [room,setRoom]=useState<any>();
+type paramstype= roomschema & {id:string,creator:string}
+const EditForm = ({room} : {room:paramstype |string |any}) => {
     const router=useRouter();
+
     const { toast } = useToast()
+    const params=useParams();
+    const roomid=params.roomid as string
     const form = useForm<roomschema>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            roomname:"",
-            description:"",
-            githubrepo:"",
-            language:""
+            roomname:room.roomname ?? "",
+            description:room.description??"",
+            githubrepo:room.githubrepo??"",
+            language:room.language??""
         },
       })
       const onSubmit=async (values:roomschema)=> {
@@ -70,17 +71,7 @@ const EditForm = () => {
          
       }
         
-      const getRoomDetails=()=>{
-        getRoom(roomid).then((res)=>{
-            setRoom(res)
-        })
-        
-      }
       
-      useEffect(()=>{
-        getRoomDetails()
-       console.log(room)
-      },[])
 
 
   return (
@@ -93,7 +84,7 @@ const EditForm = () => {
           <FormItem>
             <FormLabel>Room Name</FormLabel>
             <FormControl>
-              <Input defaultValue={room?.roomname} {...field} />
+              <Input  {...field} />
             </FormControl>
             <FormDescription>
               This is your public display room name.
