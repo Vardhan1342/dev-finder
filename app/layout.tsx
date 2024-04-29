@@ -25,9 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
           <Provider>
-            <div>
             <Header />
-            </div>
            <NextTopLoader />
 
              {children}
