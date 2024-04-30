@@ -13,7 +13,7 @@ import { MdHourglassEmpty } from "react-icons/md";
 export default function Page() {
  const router = useRouter();
  const session=useSession();
- if(!session){
+ if(!session.data?.user && session.status=="unauthenticated"){
   router.push("/")
  }
  console.log(session)
