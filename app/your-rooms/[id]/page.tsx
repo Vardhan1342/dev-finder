@@ -47,7 +47,7 @@ const page = () => {
   return (
     <div>
         <h1 className="text-3xl font-semibold m-2">Your Rooms</h1>
-        {rooms.length==0 ?
+        {rooms && rooms.length==0 ?
               <div className=" absolute top-1/2 left-[45%]  flex flex-col justify-center items-center space-y-2">
               <h1>No Rooms</h1>
               <Button asChild>
