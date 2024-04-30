@@ -2,13 +2,13 @@
 import { Button } from "@/components/ui/button";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
-import {  useRouter } from "next/navigation";
+import {  useRouter, useSearchParams } from "next/navigation";
 
 
 export default function Home() {
   const session =useSession();
   const router=useRouter()
-  
+  const searchParams=useSearchParams()
   return (
     <main className="mt-10">
           
@@ -19,7 +19,7 @@ export default function Home() {
            <h1 className="text-4xl font-semibold"> Find other awsome devs to pair with online </h1>
            
            <p className="text-xs dark:text-gray-200 text-gray-800">This paltform is for sharing your screen and working with other random developers online so that you can work together</p>
-            <Button onClick={()=>signIn("google",{redirect:false})}>Get Started</Button>
+            <Button onClick={()=>signIn('google', { callbackUrl: searchParams.get('callbackUrl') || '/dashboard' })}>Get Started</Button>
            </div>
           </div>
     </main>
