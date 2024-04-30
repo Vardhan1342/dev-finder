@@ -40,20 +40,24 @@ const page = () => {
   if (rooms.length==0) {
     return (
       <>
-        <div className=" absolute top-1/2 left-[45%]  flex flex-col justify-center items-center space-y-2">
-          <h1>No Rooms</h1>
-          <Button asChild>
-            <Link href="/create-room">Create Room</Link>
-          </Button>
-        </div>
+        
       </>
     );
   }
   return (
-    <>
+    <div>
+        <h1 className="text-3xl font-semibold m-2">Your Rooms</h1>
+        {rooms.length==0 ?
+              <div className=" absolute top-1/2 left-[45%]  flex flex-col justify-center items-center space-y-2">
+              <h1>No Rooms</h1>
+              <Button asChild>
+                <Link href="/create-room">Create Room</Link>
+              </Button>
+            </div>
+        :
       <div className="relative container grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2">
-        {rooms &&
-          rooms.map((room) => (
+                 
+          {rooms.map((room) => (
             <Card className=" m-2 realtive">
               <CardHeader>
                 <CardTitle className="flex gap-x-1 items-center ">
@@ -136,7 +140,8 @@ const page = () => {
             </Card>
           ))}
       </div>
-    </>
+
+        }</div>
   );
 };
 export default page;
