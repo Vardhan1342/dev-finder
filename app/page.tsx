@@ -19,7 +19,7 @@ export default function Home() {
            <h1 className="text-4xl font-semibold"> Find other awsome devs to pair with online </h1>
            
            <p className="text-xs dark:text-gray-200 text-gray-800">This paltform is for sharing your screen and working with other random developers online so that you can work together</p>
-            <Button onClick={()=>signIn("google")}>Get Started</Button>
+            <Button onClick={()=>signIn("google",{redirect:false})}>Get Started</Button>
            </div>
           </div>
     </main>
